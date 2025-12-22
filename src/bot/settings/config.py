@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from src.bot.settings.base import BaseBotSettings
+from bot.settings.base import BaseBotSettings
 
 
 class BotSettings(BaseBotSettings):
