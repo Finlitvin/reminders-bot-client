@@ -10,7 +10,6 @@ class CallbackData(str, Enum):
     SECTION_ID = "section${id}"
     REMINDER_ID = "reminder${id}"
 
-
     @classmethod
     def reminder_list_id(cls, reminder_id: int) -> str:
         return cls.REMINDER_LIST_ID.value.format(id=reminder_id)

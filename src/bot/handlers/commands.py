@@ -14,6 +14,7 @@ from bot.keyboards.keyboards import (
     reminder_list_keyboard,
     section_list_keyboard,
     reminders_keyboard,
+    reminder_detail_action_keyboard,
 )
 from bot.constants.commands import CommandsData
 from bot.constants.messages import MessagesData
@@ -231,7 +232,7 @@ reminders__ = [
             "description": "",
             "status": "not_done",
         },
-    ]
+    ],
 ]
 
 
@@ -251,7 +252,7 @@ async def start_command(
         )
 
 
-async def main_menu_handler(
+async def handle_main_menu(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     text = update.message.text
@@ -307,15 +308,36 @@ async def show_reminders(
 
     await update.callback_query.edit_message_text(
         "Напоминания: ",
-        reply_markup=reminders_keyboard(reminders__[section_id])
+        reply_markup=reminders_keyboard(reminders__[section_id]),
     )
 
+
+async def show_reminder_details(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    reminder_id = int(
+        update.callback_query.data.split(CallbackData.SPLIT_SYMBOL.value)[1]
+    )
+
+    reminder = reminders__[0][reminder_id]
+
+    text = (
+        f"{reminder.get('tittle')}\n"
+        f"{reminder.get('description')}\n"
+        f"Дата: {reminder.get('date')}\n"
+        f"Время: {reminder.get('time')}\n"
+        f"Статус: {reminder.get('status')}\n"
+    )
+
+    await update.callback_query.edit_message_text(
+        text, reply_markup=reminder_detail_action_keyboard()
+    )
 
 
 def get_handlers():
     return [
         CommandHandler(CommandsData.START.value, start_command),
-        MessageHandler(filters.TEXT & ~filters.COMMAND, main_menu_handler),
+        MessageHandler(filters.TEXT & ~filters.COMMAND, handle_main_menu),
         CallbackQueryHandler(
             show_reminder_list, pattern=f"^{CallbackData.BACK.value}"
         ),
@@ -326,5 +348,9 @@ def get_handlers():
         CallbackQueryHandler(
             show_reminders,
             pattern=PATTERNS["section"],
+        ),
+        CallbackQueryHandler(
+            show_reminder_details,
+            pattern=PATTERNS["reminder"],
         ),
     ]

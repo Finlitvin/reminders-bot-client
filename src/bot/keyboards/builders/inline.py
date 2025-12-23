@@ -13,11 +13,12 @@ class InlineKeyboardBuilder(KeyboardBuilder):
         )
         return self
 
-    def buttons(self, texts: list[str], callback_prefix: str):
+    def buttons(self, data: list[dict]):
         row = [
-            {"text": t, "callback_data": f"{callback_prefix}_{i}"}
-            for i, t in enumerate(texts)
+            {"text": t.get("text"), "callback_data": t.get("callback_data")}
+            for t in data
         ]
+
         self._rows.append(row)
         return self
 
