@@ -21,7 +21,7 @@ def reminder_list_keyboard(reminder_list: list):
 
         inline_keyboard.button(
             text,
-            callback_data=CallbackData.reminder_list_select(
+            callback_data=CallbackData.reminder_list_id(
                 reminder.get("id")
             ),
         )
@@ -37,9 +37,23 @@ def section_list_keyboard(section_list: list):
 
         inline_keyboard.button(
             text,
-            callback_data=CallbackData.section_list_select(section.get("id")),
+            callback_data=CallbackData.section_id(section.get("id")),
         )
+    inline_keyboard.button("⬅️", CallbackData.BACK.value)
 
+    return inline_keyboard.build()
+
+
+def reminders_keyboard(reminders: list):
+    inline_keyboard = InlineKeyboardBuilder()
+
+    for reminder in reminders:
+        text = f"{reminder.get('tittle')}"
+
+        inline_keyboard.button(
+            text,
+            callback_data=CallbackData.reminder_id(reminder.get("id")),
+        )
     inline_keyboard.button("⬅️", CallbackData.BACK.value)
 
     return inline_keyboard.build()
