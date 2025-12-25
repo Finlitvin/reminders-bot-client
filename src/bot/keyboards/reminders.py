@@ -18,14 +18,25 @@ def reminders_keyboard(reminders: list):
     return builder.build()
 
 
-def reminder_action_keyboard():
+def reminder_action_keyboard(reminder_id: int):
     return (
         InlineKeyboardBuilder()
         .buttons(
             [
-                {"text": "☑️", "callback_data": "reminder_done"},
-                {"text": "🗑️", "callback_data": "reminder_delete"},
-                {"text": "✏️", "callback_data": "reminder_edit"},
+                {
+                    "text": "☑️",
+                    "callback_data": f"{Callbacks.reminder_done(reminder_id)}",
+                },
+                {
+                    "text": "🗑️",
+                    "callback_data": (
+                        f"{Callbacks.reminder_delete(reminder_id)}"
+                    ),
+                },
+                {
+                    "text": "✏️",
+                    "callback_data": f"{Callbacks.reminder_edit(reminder_id)}",
+                },
             ],
         )
         .button("⬅️", Callbacks.BACK.value)

@@ -35,9 +35,30 @@ async def show_reminder(
         f"Время: {reminder.get('time')}\n"
         f"Статус: {reminder.get('status')}\n"
     )
-    keyboard = reminder_action_keyboard()
+    keyboard = reminder_action_keyboard(reminder_id)
 
     await update.callback_query.edit_message_text(text, reply_markup=keyboard)
+
+
+async def delete_reminder(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    reminder_id = int(update.callback_query.data.split("$")[1])
+    print(reminder_id)
+
+
+async def edit_reminder(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    reminder_id = int(update.callback_query.data.split("$")[1])
+    print(reminder_id)
+
+
+async def mark_reminder_done(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    reminder_id = int(update.callback_query.data.split("$")[1])
+    print(reminder_id)
 
 
 def get_handlers() -> list:
@@ -49,5 +70,17 @@ def get_handlers() -> list:
         CallbackQueryHandler(
             show_reminder,
             pattern=PATTERNS["reminder_select"],
+        ),
+        CallbackQueryHandler(
+            delete_reminder,
+            pattern=PATTERNS["reminder_delete"],
+        ),
+        CallbackQueryHandler(
+            edit_reminder,
+            pattern=PATTERNS["reminder_edit"],
+        ),
+        CallbackQueryHandler(
+            mark_reminder_done,
+            pattern=PATTERNS["reminder_done"],
         ),
     ]
