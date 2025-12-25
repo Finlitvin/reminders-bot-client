@@ -37,7 +37,16 @@ async def show_reminder(
     )
     keyboard = reminder_action_keyboard(reminder_id)
 
-    await update.callback_query.edit_message_text(text, reply_markup=keyboard)
+    if update.message:
+        await update.message.reply_text(
+            text,
+            reply_markup=keyboard,
+        )
+    elif update.callback_query:
+        await update.callback_query.edit_message_text(
+            text,
+            reply_markup=keyboard,
+        )
 
 
 async def delete_reminder(
@@ -58,7 +67,14 @@ async def mark_reminder_done(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     reminder_id = int(update.callback_query.data.split("$")[1])
-    print(reminder_id)
+    status = reminders__[0][reminder_id]["status"]
+
+    if status == "done":
+        reminders__[0][reminder_id]["status"] = "not_done"
+    else:
+        reminders__[0][reminder_id]["status"] = "done"
+
+    await show_reminder(update, context)
 
 
 def get_handlers() -> list:
