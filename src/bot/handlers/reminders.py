@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes, CallbackQueryHandler
 
-from bot.utils.database import reminders__
+from bot.utils.database import reminders__, categories__
 from bot.keyboards.reminders import (
     reminders_keyboard,
     reminder_action_keyboard,
@@ -13,11 +13,14 @@ async def show_reminders(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     category_id = int(update.callback_query.data.split("$")[1])
+    list_id = context.user_data.get("list_id")
+    context.user_data["category_id"] = category_id
 
+    text = categories__[list_id][category_id]["name"]
     keyboard = reminders_keyboard(reminders__[category_id])
 
     await update.callback_query.edit_message_text(
-        "Напоминания: ",
+        text,
         reply_markup=keyboard,
     )
 
@@ -26,7 +29,8 @@ async def show_reminder(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     reminder_id = int(update.callback_query.data.split("$")[1])
-    reminder = reminders__[0][reminder_id]
+    category_id = context.user_data.get("category_id")
+    reminder = reminders__[category_id][reminder_id]
 
     text = (
         f"{reminder.get('tittle')}\n"
@@ -67,12 +71,13 @@ async def mark_reminder_done(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     reminder_id = int(update.callback_query.data.split("$")[1])
-    status = reminders__[0][reminder_id]["status"]
+    category_id = context.user_data.get("category_id")
+    status = reminders__[category_id][reminder_id]["status"]
 
     if status == "done":
-        reminders__[0][reminder_id]["status"] = "not_done"
+        reminders__[category_id][reminder_id]["status"] = "not_done"
     else:
-        reminders__[0][reminder_id]["status"] = "done"
+        reminders__[category_id][reminder_id]["status"] = "done"
 
     await show_reminder(update, context)
 

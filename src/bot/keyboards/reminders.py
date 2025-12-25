@@ -6,7 +6,7 @@ def reminders_keyboard(reminders: list):
     builder = InlineKeyboardBuilder()
 
     for reminder in reminders:
-        text = f"{reminder.get('tittle')}"
+        text = f"{reminder.get('status')} {reminder.get('tittle')}"
 
         builder.button(
             text,
