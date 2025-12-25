@@ -2,29 +2,29 @@ import re
 from enum import Enum
 
 
-class CallbackData(str, Enum):
+class Callbacks(str, Enum):
     SPLIT_SYMBOL = "$"
 
     BACK = "back"
-    REMINDER_LIST_ID = "reminder_list${id}"
-    SECTION_ID = "section${id}"
-    REMINDER_ID = "reminder${id}"
+    LIST_SELECT = "list_select${id}"
+    CATEGORY_SELECT = "category_select${id}"
+    REMINDER_SELECT = "reminder_select${id}"
 
     @classmethod
-    def reminder_list_id(cls, reminder_id: int) -> str:
-        return cls.REMINDER_LIST_ID.value.format(id=reminder_id)
+    def list_select(cls, list_id: int) -> str:
+        return cls.LIST_SELECT.value.format(id=list_id)
 
     @classmethod
-    def section_id(cls, section_id: int) -> str:
-        return cls.SECTION_ID.value.format(id=section_id)
+    def category_select(cls, category_id: int) -> str:
+        return cls.CATEGORY_SELECT.value.format(id=category_id)
 
     @classmethod
-    def reminder_id(cls, reminder_id: int) -> str:
-        return cls.REMINDER_ID.value.format(id=reminder_id)
+    def reminder_select(cls, reminder_id: int) -> str:
+        return cls.REMINDER_SELECT.value.format(id=reminder_id)
 
 
 PATTERNS = {
-    "reminder_list": re.compile(r"^reminder_list\$(\d+)$"),
-    "section": re.compile(r"^section\$(\d+)$"),
-    "reminder": re.compile(r"^reminder\$(\d+)$"),
+    "list_select": re.compile(r"^list_select\$(\d+)$"),
+    "category_select": re.compile(r"^category_select\$(\d+)$"),
+    "reminder_select": re.compile(r"^reminder_select\$(\d+)$"),
 }

@@ -1,5 +1,5 @@
 from enum import Enum
 
 
-class CommandsData(str, Enum):
+class Commands(str, Enum):
     START = "start"

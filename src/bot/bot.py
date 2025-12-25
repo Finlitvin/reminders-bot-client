@@ -1,6 +1,6 @@
 from telegram.ext import ApplicationBuilder
 
-from bot.handlers.commands import get_handlers
+from bot.handlers import get_all_handlers
 from bot.handlers.errors import error_handler
 from bot.settings.config import get_bot_settings
 
@@ -11,7 +11,7 @@ def setup_bot():
     application = ApplicationBuilder().token(settings.telegram_token).build()
 
     application.add_error_handler(error_handler)
-    application.add_handlers(get_handlers())
+    application.add_handlers(get_all_handlers())
 
     return application
 
