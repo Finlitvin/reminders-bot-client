@@ -3,7 +3,7 @@ from telegram.ext import ContextTypes, CallbackQueryHandler
 
 from bot.utils.database import lists__
 from bot.keyboards.lists import lists_keyboard
-from bot.constants.messages import Messages
+from bot.constants.buttons import Buttons
 from bot.constants.callbacks import Callbacks
 
 
@@ -11,7 +11,7 @@ async def show_lists(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     keyboard = lists_keyboard(lists__)
-    text = Messages.LISTS.value
+    text = Buttons.LISTS.value
 
     if update.message:
         await update.message.reply_text(

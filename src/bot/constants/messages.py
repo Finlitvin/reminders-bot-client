@@ -2,8 +2,6 @@ from enum import Enum
 
 
 class Messages(str, Enum):
-    LISTS = "📋 Список напоминаний"
-    SETTINGS = "⚙️ Настройки"
     START = "👋 Привет, {username}!"
 
     @classmethod

@@ -10,6 +10,7 @@ from bot.handlers.lists import show_lists
 from bot.keyboards.commands import main_menu_keyboard
 from bot.constants.commands import Commands
 from bot.constants.messages import Messages
+from bot.constants.buttons import Buttons
 
 
 async def start_command(
@@ -33,10 +34,13 @@ async def handle_main_menu(
 ) -> None:
     text = update.message.text
 
-    if text == Messages.LISTS.value:
+    if text == Buttons.LISTS.value:
         await show_lists(update, context)
 
-    elif text == Messages.SETTINGS.value:
+    elif text == Buttons.ADD.value:
+        pass
+
+    elif text == Buttons.SETTINGS.value:
         pass
 
 

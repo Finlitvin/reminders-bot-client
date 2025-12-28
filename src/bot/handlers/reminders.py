@@ -38,7 +38,6 @@ async def show_reminder(
     category_id = context.user_data.get("category_id")
     reminder = reminders__[category_id][reminder_id]
 
-
     text = (
         f"{reminder.get('tittle')}\n"
         f"{reminder.get('description')}\n"
