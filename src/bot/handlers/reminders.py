@@ -19,10 +19,16 @@ async def show_reminders(
     text = categories__[list_id][category_id]["name"]
     keyboard = reminders_keyboard(reminders__[category_id])
 
-    await update.callback_query.edit_message_text(
-        text,
-        reply_markup=keyboard,
-    )
+    if update.message:
+        await update.message.reply_text(
+            text,
+            reply_markup=keyboard,
+        )
+    elif update.callback_query:
+        await update.callback_query.edit_message_text(
+            text,
+            reply_markup=keyboard,
+        )
 
 
 async def show_reminder(
@@ -31,6 +37,7 @@ async def show_reminder(
     reminder_id = int(update.callback_query.data.split("$")[1])
     category_id = context.user_data.get("category_id")
     reminder = reminders__[category_id][reminder_id]
+
 
     text = (
         f"{reminder.get('tittle')}\n"
@@ -57,7 +64,10 @@ async def delete_reminder(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     reminder_id = int(update.callback_query.data.split("$")[1])
-    print(reminder_id)
+    category_id = context.user_data.get("category_id")
+    reminders__[category_id].pop(reminder_id)
+
+    await show_reminders(update, context)
 
 
 async def edit_reminder(
