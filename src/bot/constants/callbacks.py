@@ -3,8 +3,6 @@ from enum import Enum
 
 
 class Callbacks(str, Enum):
-    SPLIT_SYMBOL = "$"
-
     BACK = "back"
     LIST_SELECT = "list_select${id}"
     CATEGORY_SELECT = "category_select${id}"

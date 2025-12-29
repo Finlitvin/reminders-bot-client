@@ -31,6 +31,6 @@ def get_handlers() -> list:
         MessageHandler(SHOW_LIST_FILTER, show_lists),
         CallbackQueryHandler(
             show_lists,
-            pattern=Callbacks.BACK.value,
+            pattern=Callbacks.BACK.pattern,
         ),
     ]
