@@ -6,7 +6,7 @@ from bot.keyboards.reminders import (
     reminders_keyboard,
     reminder_action_keyboard,
 )
-from bot.constants.callbacks import PATTERNS
+from bot.constants.callbacks import Callbacks
 from bot.handlers.filters.reminders import CREATE_REMINDER_FILTER
 
 
@@ -103,22 +103,22 @@ def get_handlers() -> list:
         MessageHandler(CREATE_REMINDER_FILTER, create_reminder),
         CallbackQueryHandler(
             show_reminders,
-            pattern=PATTERNS["category_select"],
+            pattern=Callbacks.CATEGORY_SELECT.pattern,
         ),
         CallbackQueryHandler(
             show_reminder,
-            pattern=PATTERNS["reminder_select"],
+            pattern=Callbacks.REMINDER_SELECT.pattern,
         ),
         CallbackQueryHandler(
             delete_reminder,
-            pattern=PATTERNS["reminder_delete"],
+            pattern=Callbacks.REMINDER_DELETE.pattern,
         ),
         CallbackQueryHandler(
             edit_reminder,
-            pattern=PATTERNS["reminder_edit"],
+            pattern=Callbacks.REMINDER_EDIT.pattern,
         ),
         CallbackQueryHandler(
             mark_reminder_done,
-            pattern=PATTERNS["reminder_done"],
+            pattern=Callbacks.REMINDER_DONE.pattern,
         ),
     ]

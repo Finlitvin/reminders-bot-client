@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes, CallbackQueryHandler
 
 from bot.utils.database import lists__, categories__
-from bot.constants.callbacks import PATTERNS
+from bot.constants.callbacks import Callbacks
 from bot.keyboards.categories import categories_keyboard
 from bot.handlers.reminders import show_reminders
 
@@ -27,6 +27,6 @@ def get_handlers() -> list:
     return [
         CallbackQueryHandler(
             show_categories,
-            pattern=PATTERNS["list_select"],
+            pattern=Callbacks.LIST_SELECT.pattern,
         )
     ]

@@ -1,4 +1,4 @@
-import re
+from re import Pattern
 from enum import Enum
 
 
@@ -37,12 +37,6 @@ class Callbacks(str, Enum):
     def reminder_edit(cls, reminder_id: int) -> str:
         return cls.REMINDER_EDIT.value.format(id=reminder_id)
 
-
-PATTERNS = {
-    "list_select": re.compile(r"^list_select\$(\d+)$"),
-    "category_select": re.compile(r"^category_select\$(\d+)$"),
-    "reminder_select": re.compile(r"^reminder_select\$(\d+)$"),
-    "reminder_done": re.compile(r"^reminder_done\$(\d+)$"),
-    "reminder_delete": re.compile(r"^reminder_delete\$(\d+)$"),
-    "reminder_edit": re.compile(r"^reminder_edit\$(\d+)$"),
-}
+    @property
+    def pattern(self) -> Pattern[str]:
+        return f"^{self.value.split('$')[0]}"
