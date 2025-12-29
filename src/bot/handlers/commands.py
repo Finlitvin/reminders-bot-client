@@ -1,16 +1,9 @@
 from telegram import Update
-from telegram.ext import (
-    ContextTypes,
-    CommandHandler,
-    MessageHandler,
-    filters,
-)
+from telegram.ext import ContextTypes, CommandHandler
 
-from bot.handlers.lists import show_lists
 from bot.keyboards.commands import main_menu_keyboard
 from bot.constants.commands import Commands
 from bot.constants.messages import Messages
-from bot.constants.buttons import Buttons
 
 
 async def start_command(
@@ -29,23 +22,7 @@ async def start_command(
         )
 
 
-async def handle_main_menu(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> None:
-    text = update.message.text
-
-    if text == Buttons.LISTS.value:
-        await show_lists(update, context)
-
-    elif text == Buttons.ADD.value:
-        pass
-
-    elif text == Buttons.SETTINGS.value:
-        pass
-
-
 def get_handlers() -> list:
     return [
         CommandHandler(Commands.START.value, start_command),
-        MessageHandler(filters.TEXT & ~filters.COMMAND, handle_main_menu),
     ]

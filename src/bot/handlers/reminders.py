@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import ContextTypes, CallbackQueryHandler
+from telegram.ext import ContextTypes, CallbackQueryHandler, MessageHandler
 
 from bot.utils.database import reminders__, categories__
 from bot.keyboards.reminders import (
@@ -7,6 +7,7 @@ from bot.keyboards.reminders import (
     reminder_action_keyboard,
 )
 from bot.constants.callbacks import PATTERNS
+from bot.handlers.filters.reminders import CREATE_REMINDER_FILTER
 
 
 async def show_reminders(
@@ -91,8 +92,15 @@ async def mark_reminder_done(
     await show_reminder(update, context)
 
 
+async def create_reminder(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    print("add")
+
+
 def get_handlers() -> list:
     return [
+        MessageHandler(CREATE_REMINDER_FILTER, create_reminder),
         CallbackQueryHandler(
             show_reminders,
             pattern=PATTERNS["category_select"],

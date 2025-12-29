@@ -1,10 +1,11 @@
 from telegram import Update
-from telegram.ext import ContextTypes, CallbackQueryHandler
+from telegram.ext import ContextTypes, CallbackQueryHandler, MessageHandler
 
 from bot.utils.database import lists__
 from bot.keyboards.lists import lists_keyboard
 from bot.constants.buttons import Buttons
 from bot.constants.callbacks import Callbacks
+from bot.handlers.filters.lists import SHOW_LIST_FILTER
 
 
 async def show_lists(
@@ -27,8 +28,9 @@ async def show_lists(
 
 def get_handlers() -> list:
     return [
+        MessageHandler(SHOW_LIST_FILTER, show_lists),
         CallbackQueryHandler(
             show_lists,
             pattern=Callbacks.BACK.value,
-        )
+        ),
     ]
